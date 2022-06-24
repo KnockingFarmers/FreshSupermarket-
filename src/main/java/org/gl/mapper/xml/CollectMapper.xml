@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gl.mapper.CollectMapper">
+
+    <resultMap id="collectMap" type="org.gl.entity.Collect">
+        <result property="collectId" column="collect_id"/>
+        <result property="deleted" column="deleted"/>
+        <result property="goodsId" column="goods_id"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="version" column="version"/>
+        <result property="userId" column="user_id"/>
+        <association property="goods" javaType="org.gl.entity.Goods">
+            <result property="goodsId" column="goods_id"/>
+            <result property="gmtCreate" column="gmt_create"/>
+            <result property="version" column="version"/>
+            <result property="gmtModified" column="gmt_modified"/>
+            <result property="goodsFirstClass" column="goods_first_class"/>
+            <result property="goodsImage" column="goods_image"/>
+            <result property="goodsInventory" column="goods_inventory"/>
+            <result property="goodsTwoClass" column="goods_two_class"/>
+            <result property="goodsPrice" column="goods_price"/>
+            <result property="goodsName" column="goods_name"/>
+        </association>
+    </resultMap>
+
+
+    <select id="selectUserCollect" resultMap="collectMap">
+        SELECT * FROM goods JOIN collect
+            ON collect.goods_id =goods.goods_id
+           WHERE collect.user_id=#{userId} and collect.deleted=0
+    </select>
+</mapper>

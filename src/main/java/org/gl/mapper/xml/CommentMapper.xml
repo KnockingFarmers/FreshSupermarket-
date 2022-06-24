@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gl.mapper.CommentMapper">
+
+    <resultMap id="commentMapperMap" type="org.gl.entity.Comment">
+        <id property="commentId" column="comment_id"/>
+        <result property="commentText" column="comment_text"/>
+        <result property="goodsId" column="goods_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="deleted" column="deleted"/>
+        <result property="version" column="version"/>
+        <result property="score" column="score"/>
+
+        <association property="user" javaType="org.gl.entity.User">
+            <id property="userId" column="user_id"/>
+            <result property="userAvatar" column="user_avatar"/>
+            <result property="userEmail" column="user_email"/>
+            <result property="userName" column="user_name"/>
+            <result property="deleted" column="deleted"/>
+        </association>
+
+        <collection property="commentImagesList" ofType="org.gl.entity.CommentImages">
+            <id property="commentImagesId" column="goods_id"/>
+            <result property="commentImages" column="gmt_create"/>
+            <result property="commentId" column="comment_id"/>
+        </collection>
+
+    </resultMap>
+    <select id="selectCommentByGoodsId" resultMap="commentMapperMap">
+        SELECT *
+        FROM `comment`
+                 JOIN goods
+                      ON `comment`.goods_id = goods.goods_id
+                 LEFT JOIN comment_images ON comment_images.comment_id = `comment`.comment_id
+                 LEFT JOIN `user` ON `comment`.user_id = `user`.user_id
+        WHERE `comment`.goods_id = #{goodsId}
+          AND `comment`.deleted = 0
+        ORDER BY `comment`.gmt_create DESC
+    </select>
+
+    <select id="selectOneComment" resultMap="commentMapperMap">
+        SELECT *
+        FROM `comment`
+                 JOIN goods
+                      ON `comment`.goods_id = goods.goods_id
+                 LEFT JOIN comment_images ON comment_images.comment_id = `comment`.comment_id
+                 LEFT JOIN `user` ON `comment`.user_id = `user`.user_id
+        WHERE `comment`.goods_id = #{goodsId}
+          AND `comment`.deleted = 0
+        ORDER BY `comment`.gmt_create DESC LIMIT 1
+    </select>
+</mapper>

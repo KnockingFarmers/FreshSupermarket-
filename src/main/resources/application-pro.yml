@@ -1,0 +1,41 @@
+
+spring:
+  #配置 smtp 服务器地址
+  mail:
+    host: smtp.qq.com
+    # 服务器端口
+    #port: 8080
+    username: 3237764237@qq.com
+    #授权码
+    password: lcdfggcrxgrdcjgb
+    default-encoding: utf-8
+    prot: 465
+    protocol: smtps
+  #redis连接配置
+  redis:
+    host: 182.92.160.192
+    port: 6379
+    password: xi789156/
+  servlet:
+    multipart:
+      max-file-size: 20MB
+
+
+  #配置数据库
+  datasource:
+    url: jdbc:mysql://localhost:3306/fresh_supermarket_db?uesSSL=true&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: Xi789156/
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:/org/gl/mapper/xml/*.xml
+  type-aliases-package: org.gl.entity
+
+server:
+  port: 620
+  max-http-header-size: 1024000
